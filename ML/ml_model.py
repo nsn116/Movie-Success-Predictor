@@ -46,34 +46,8 @@ def preProcessData():
 
 
 
-'''
-Model Definitions
-'''
 
-# Training Revenue or Revenue-to-Budget Ratio
-rev_model = Sequential()
-rev_model.add(Dropout(0.1,input_shape=(train_feat.shape[1],)))
-rev_model.add(Dense(128,activation='relu'))
-rev_model.add(Dropout(0.2))
-rev_model.add(Dense(64,activation='relu'))
-rev_model.add(Dropout(0.4))
-rev_model.add(Dense(1))
-rev_model.compile(loss='mae', optimizer='adam', metrics=['mae'])
-rev_model.summary()
-
-
-# Vote Average/Rating
-rating_model = Sequential()
-rating_model.add(Dropout(0.1,input_shape=(train_feat.shape[1],)))
-rating_model.add(Dense(128,activation='relu'))
-rating_model.add(Dropout(0.2))
-rating_model.add(Dense(128,activation='relu'))
-rating_model.add(Dropout(0.4))
-rating_model.add(Dense(1,activation='sigmoid'))
-rating_model.compile(loss='mae', optimizer='adam', metrics=['mae'])
-rating_model.summary()
-
-
+# Data Setup
 # Read Data, Drop index col (0)
 # Select label
 # 1 -- Vote Average
@@ -101,6 +75,34 @@ train_feat   = input_features[:3000]
 test_labels = labels[3000:]
 test_feat   = input_features[3000:]
 
+
+# Model Definitions
+
+# Training Revenue or Revenue-to-Budget Ratio
+rev_model = Sequential()
+rev_model.add(Dropout(0.1,input_shape=(train_feat.shape[1],)))
+rev_model.add(Dense(128,activation='relu'))
+rev_model.add(Dropout(0.2))
+rev_model.add(Dense(64,activation='relu'))
+rev_model.add(Dropout(0.4))
+rev_model.add(Dense(1))
+rev_model.compile(loss='mae', optimizer='adam', metrics=['mae'])
+rev_model.summary()
+
+
+# Vote Average/Rating
+rating_model = Sequential()
+rating_model.add(Dropout(0.1,input_shape=(train_feat.shape[1],)))
+rating_model.add(Dense(128,activation='relu'))
+rating_model.add(Dropout(0.2))
+rating_model.add(Dense(128,activation='relu'))
+rating_model.add(Dropout(0.4))
+rating_model.add(Dense(1,activation='sigmoid'))
+rating_model.compile(loss='mae', optimizer='adam', metrics=['mae'])
+rating_model.summary()
+
+
+# Training
 if(label==1):
 	rating_model.fit(train_feat, train_labels,validation_data=(test_feat,test_labels), epochs=500, batch_size=32)
 	rating_model.save('models/rating_model.h5')
