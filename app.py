@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, make_response, request, jsonify
+from flask import Flask, make_response, request
 from flask_restful import Api
 
 from src.prediction import predict
@@ -17,7 +17,6 @@ def post():
     global result
     json_data = request.get_json()
     print(json.dumps(json_data))
-    is_adult = json_data.get('is_adult', False)
     genres = json_data.get('genres', None)
     budget = json_data.get('budget', 1000000)
     runtime = json_data.get('runtime', 90)
@@ -26,7 +25,6 @@ def post():
     cast = json_data.get('cast', None)
     prod_companies = json_data.get('production_companies', None)
     output = predict(
-        is_adult=is_adult,
         genres=genres,
         budget=budget,
         runtime=runtime,

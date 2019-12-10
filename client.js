@@ -4,7 +4,6 @@ function UserAction() {
     xhttp_post.setRequestHeader("Content-type", "application/json");
     xhttp_post.setRequestHeader("Access-Control-Allow-Origin", "*");
     var form_data = {
-      "is_adult": document.getElementById("isAdultNo").disabled,
       "genres": document.getElementById("genres").value.split(","),
       "budget": document.getElementById("budget").value,
       "runtime": document.getElementById("runtime").value,

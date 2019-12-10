@@ -1,7 +1,6 @@
 
 
 def predict(
-        is_adult=False,
         genres=None,
         budget=1000000,
         runtime=90,

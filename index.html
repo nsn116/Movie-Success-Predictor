@@ -52,16 +52,8 @@ setInterval(function() {
       <form onsubmit="return false" target="_blank">
         <div class="w3-row-padding" style="margin:0 -16px;">
           <div class="w3-half w3-margin-bottom">
-            <label><i class="fa fa-child"></i> Is this movie suitable for children? </label>
-            <div class="container">
-              <button class="w3-button w3-dark-grey" id="isAdultYes"
-                      onclick="document.getElementById('isAdultNo').disabled=false; document.getElementById('isAdultYes').disabled=true"
-                      style="float:left; margin-left:50px; width:75px">Yes</button>
-              &nbsp
-              <button class="w3-button w3-dark-grey" id="isAdultNo"
-                      onclick="document.getElementById('isAdultNo').disabled=true; document.getElementById('isAdultYes').disabled=false"
-                      style="float:right; margin-right:50px; width:75px">No</button>
-            </div>
+            <label><i class="fa fa-clock-o"></i> Runtime (in minutes)</label>
+            <input class="w3-input w3-border" type="number" id="runtime" placeholder="90 / 120 / 240...">
           </div>
           <div class="w3-half">
             <label><i class="fa fa-dollar"></i> Budget (in $)</label>
@@ -69,13 +61,9 @@ setInterval(function() {
           </div>
         </div>
         <div class="w3-row-padding" style="margin:8px -16px;">
-          <div class="w3-half w3-margin-bottom">
-            <label><i class="fa fa-clock-o"></i> Runtime (in minutes)</label>
-            <input class="w3-input w3-border" type="number" id="runtime">
-          </div>
-          <div class="w3-half">
+          <div class="w3-full">
             <label><i class="fa fa-imdb"></i> Genre(s)</label>
-          <input class="w3-input w3-border" type="text" placeholder="Horror, Thriller..." id="genres" required>
+          <input class="w3-input w3-border" type="text" placeholder="List genres with comma separated names e.g.: Horror, Thriller..." id="genres" required>
           </div>
         </div>
         <div class="w3-row-padding" style="margin:8px -16px;">
