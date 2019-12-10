@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="client.js"></script>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {
+  font-family: "Raleway", Arial, Helvetica, sans-serif;
+}
+img {
+  position: fixed;
+  transition: opacity 4s ease-in;
+}
+img + img { opacity: 0; }
+</style>
+
+<script>
+var current = 0,
+slides = document.getElementsByTagName("img");
+
+setInterval(function() {
+  for (var i = 0; i < slides.length; i++) {
+    slides[i].style.opacity = 0;
+  }
+  current = (current != slides.length - 1) ? current + 1 : 0;
+  slides[current].style.opacity = 0.8;
+}, 10000);
+</script>
+
+<body class="w3-light-grey">
+
+<!-- Header -->
+<header class="w3-display-container w3-content" style="max-width:1500px;">
+  <img class="w3-image" src="images/tmnt.jpg" alt="Movie" style="min-width:1000px; opacity:0; width:100%; height: 100%;">
+  <img class="w3-image" src="images/fsog.jpg" alt="Movie" style="min-width:1000px; opacity:0; width:100%; height: 100%;">
+  <img class="w3-image" src="images/got.jpg" alt="Movie" style="min-width:1000px; opacity:0; width:100%; height: 100%;">
+  <img class="w3-image" src="images/avengers.jpg" alt="Movie" style="min-width:1000px; opacity:0; width:100%; height: 100%;">
+  <img class="w3-image" src="images/star_trek.jpg" alt="Movie" style="min-width:1000px; opacity:0; width:100%; height: 100%;">
+  <img class="w3-image" src="images/titanic.jpg" alt="Movie" style="min-width:1000px; opacity:0; width:100%; height: 100%;">
+  <img class="w3-image" src="images/joker.jpg" alt="Movie" style="min-width:1000px; opacity:0.8; width:100%; height: 100%;">
+  <div class="w3-display-left w3-padding w3-col l6 m8">
+    <div class="w3-container w3-blue" style="opacity:0.8;">
+      <h2><i class="fa fa-film w3-margin-right"></i>Movie Characteristics</h2>
+    </div>
+    <div class="w3-container w3-white w3-padding-16" style="opacity:0.8;">
+      <form onsubmit="return false" target="_blank">
+        <div class="w3-row-padding" style="margin:0 -16px;">
+          <div class="w3-half w3-margin-bottom">
+            <label><i class="fa fa-child"></i> Is this movie suitable for children? </label>
+            <div class="container">
+              <button class="w3-button w3-dark-grey" id="isAdultYes"
+                      onclick="document.getElementById('isAdultNo').disabled=false; document.getElementById('isAdultYes').disabled=true"
+                      style="float:left; margin-left:50px; width:75px">Yes</button>
+              &nbsp
+              <button class="w3-button w3-dark-grey" id="isAdultNo"
+                      onclick="document.getElementById('isAdultNo').disabled=true; document.getElementById('isAdultYes').disabled=false"
+                      style="float:right; margin-right:50px; width:75px">No</button>
+            </div>
+          </div>
+          <div class="w3-half">
+            <label><i class="fa fa-dollar"></i> Budget (in $)</label>
+            <input class="w3-input w3-border" type="number" placeholder="$$$" id="budget" required>
+          </div>
+        </div>
+        <div class="w3-row-padding" style="margin:8px -16px;">
+          <div class="w3-half w3-margin-bottom">
+            <label><i class="fa fa-clock-o"></i> Runtime (in minutes)</label>
+            <input class="w3-input w3-border" type="number" id="runtime">
+          </div>
+          <div class="w3-half">
+            <label><i class="fa fa-imdb"></i> Genre(s)</label>
+          <input class="w3-input w3-border" type="text" placeholder="Horror, Thriller..." id="genres" required>
+          </div>
+        </div>
+        <div class="w3-row-padding" style="margin:8px -16px;">
+          <div class="w3-full">
+            <label><i class="fa fa-book"></i> Writer(s)</label>
+          <input class="w3-input w3-border" id="writers" type="text" placeholder="List writers with comma separated names" required>
+          </div>
+        </div>
+        <div class="w3-row-padding" style="margin:8px -16px;">
+          <div class="w3-full">
+            <label><i class="fa fa-video-camera"></i> Directors(s)</label>
+          <input class="w3-input w3-border" id="directors" type="text" placeholder="List directors with comma separated names" required>
+          </div>
+        </div>
+        <div class="w3-row-padding" style="margin:8px -16px;">
+          <div class="w3-full">
+            <label><i class="fa fa-male"></i><i class="fa fa-female"></i> Cast</label>
+          <input class="w3-input w3-border" id="cast" type="text" placeholder="List cast with comma separated names" required>
+          </div>
+        </div>
+        <div class="w3-row-padding" style="margin:8px -16px;">
+          <div class="w3-full">
+            <label><i class="fa fa-industry"></i> Production Company(s)</label>
+          <input class="w3-input w3-border"id="prod_companies" type="text" placeholder="List production companies with comma separated names e.g. Disney" required>
+          </div>
+        </div>
+        <br>
+        <button class="w3-button w3-dark-grey" onclick="UserAction()"><i class="fa fa-search w3-margin-right"></i> Obtain Success Metrics</button>
+        <div class="w3-row-padding" style="margin:8px -16px;" id="result" hidden>
+          <div class="w3-half w3-margin-bottom">
+            <label><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> Predicted Rating</label>
+            <input class="w3-input w3-border" id="rating" type="text" style="text-align:center; color: black" disabled>
+          </div>
+          <div class="w3-half">
+            <label><i class="fa fa-dollar"></i> <i class="fa fa-dollar"></i></i> Predicted Revenue (in $)</label>
+            <input class="w3-input w3-border" id="revenue" type="text" style="text-align:center; color: black" disabled>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</header>
+
+</body>
+</html>

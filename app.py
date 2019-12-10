@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, make_response, request
+from flask import Flask, make_response, request, jsonify
 from flask_restful import Api
 
 from src.prediction import predict
@@ -9,18 +9,23 @@ app = Flask(__name__)
 api = Api(app)
 
 
-@app.route('/get_success_metrics', methods=['POST'])
+result = None
+
+
+@app.route('/post_movie_metrics', methods=['POST'])
 def post():
+    global result
     json_data = request.get_json()
-    is_adult = json_data['is_adult']
-    genres = json_data['genres']
-    budget = json_data['budget']
-    runtime = json_data['runtime']
-    directors = json_data['directors']
-    writers = json_data['writers']
-    cast = json_data['cast']
-    prod_companies = json_data['production_companies']
-    output_dict = predict(
+    print(json.dumps(json_data))
+    is_adult = json_data.get('is_adult', False)
+    genres = json_data.get('genres', None)
+    budget = json_data.get('budget', 1000000)
+    runtime = json_data.get('runtime', 90)
+    directors = json_data.get('directors', None)
+    writers = json_data.get('writers', None)
+    cast = json_data.get('cast', None)
+    prod_companies = json_data.get('production_companies', None)
+    output = predict(
         is_adult=is_adult,
         genres=genres,
         budget=budget,
@@ -30,9 +35,16 @@ def post():
         cast=cast,
         prod_companies=prod_companies
     )
-    response = make_response(json.dumps(output_dict, indent=2))
+    result = output
+    response = make_response(json.dumps(output, indent=2))
     response.headers['content-type'] = 'application/json'
     return response
+
+
+@app.route('/get_success_metrics', methods=['GET'])
+def get():
+    global result
+    return f"{result['Revenue']} ;; {result['Rating']}"
 
 
 if __name__ == '__main__':

@@ -11,5 +11,6 @@ def predict(
         prod_companies=None
 ):
     return {
-        "hello": "world"
+        "Revenue": 2000000,
+        "Rating": 5.0
     }
