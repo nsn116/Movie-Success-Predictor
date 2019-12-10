@@ -61,21 +61,23 @@ preProcessData()
 # 2 -- Revenue 
 # 3 -- Rev Budget Ratio
 
-label = 1
+label = 3
 
 labels = np.loadtxt('ml_data/labels.csv',skiprows=1,delimiter=',')[:,label] 
 input_features = np.loadtxt('ml_data/input_features.csv',skiprows=1,delimiter=',')[:,1:]
 num_data 	   = labels.shape[0]
 
-# Normalise Labels
-rev_mean = np.mean(labels[:3000])
-rev_std  = np.std(labels[:3000])
-labels = (labels-rev_mean)/rev_std
 
 # Shuffle Data
 shuffle_idx    = np.random.choice(num_data,size=num_data)
 labels 		   = labels[shuffle_idx]
 input_features = input_features[shuffle_idx]
+
+
+# Normalise Labels
+rev_mean = np.mean(labels[:3000])
+rev_std  = np.std(labels[:3000])
+labels = (labels-rev_mean)/rev_std
 
 
 # Preprae Training and Test Data
@@ -85,21 +87,25 @@ train_feat   = input_features[:3000]
 test_labels = labels[3000:]
 test_feat   = input_features[3000:]
 
+print(rev_std)
 
 
 '''
 Random Forest Method
 '''
 
-rf = RandomForestRegressor(n_estimators = 500, random_state = 17,min_samples_split=2,min_samples_leaf=1)
+rf = RandomForestRegressor(n_estimators = 100, random_state = 17,min_samples_split=2,min_samples_leaf=1)
 rf.fit(train_feat,train_labels)
 preds = rf.predict(test_feat)
 errors = abs(preds - test_labels)
 print(np.mean(errors))
-if(label==3):
-	pickle.dump(rf, open('models/revenue_model_rf.p', 'wb'))
-elif(label==1):
-	pickle.dump(rf, open('models/rating_model_rf.p', 'wb'))
+# print(np.mean(abs(np.exp(rev_mean+(preds*rev_std)) - np.exp(rev_mean+(test_labels*rev_std)))))
+
+
+# if(label==3):
+# 	pickle.dump(rf, open('models/revenue_model_rf.p', 'wb'))
+# elif(label==1):
+# 	pickle.dump(rf, open('models/rating_model_rf.p', 'wb'))
 
 # importances = rf.feature_importances_
 # std = np.std([tree.feature_importances_ for tree in rf.estimators_],
@@ -120,9 +126,9 @@ elif(label==1):
 # plt.show()
 
 
-'''
-Neural Network Method
-'''
+# '''
+# Neural Network Method
+# '''
 
 # Model Definitions
 
