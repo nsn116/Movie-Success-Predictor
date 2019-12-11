@@ -16,7 +16,6 @@ result = None
 def post():
     global result
     json_data = request.get_json()
-    print(json.dumps(json_data))
     genres = json_data.get('genres', None)
     budget = json_data.get('budget', 1000000)
     runtime = json_data.get('runtime', 90)

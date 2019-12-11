@@ -112,7 +112,6 @@ def get_df_without_scores(budget, runtime, genres, prod_companies, writers, dire
     return pd.DataFrame([df_dict])
 
 def compute_df_score(budget, runtime, genres, prod_companies, writers, directors, actors, others):
-    print('FML')
     df = get_df_without_scores(budget, runtime, genres, prod_companies,
                                               writers, directors, actors, others)
     
