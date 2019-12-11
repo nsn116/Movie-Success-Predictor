@@ -98,7 +98,7 @@ def get_df_without_scores(budget, runtime, genres, prod_companies, writers, dire
     df_dict = {}
     
     df_dict['budget'] = budget
-    df_dict['runtime'] = runtime
+    df_dict['runtimeMinutes'] = runtime
     
     df_dict = assign_features(df_dict, 'genre', genres, num_genres)
     df_dict = assign_features(df_dict, 'prod_company', prod_companies, num_prod_companies)
@@ -118,21 +118,21 @@ def compute_df_score(budget, runtime, genres, prod_companies, writers, directors
         for col_type in nontrivial_col_types:
             for col in col_type:
                 id_ = row[col]
-                if id_ != '': 
-                    try:
-                        df.set_value(index, col + '_' + 'vote_average',
-                                                    nconst_to_vote_average_score[id_])
-                        df.set_value(index, col + '_' + 'vote_count',
-                                                nconst_to_vote_count_score[id_])
-                        df.set_value(index, col + '_' + 'profit',
-                                                    nconst_to_profit_score[id_])
-                        df.set_value(index, col + '_' + 'rev_budget_ratio',
-                                                    nconst_to_rev_budget_ratio_score[id_])
-                    except:
-                        df.set_value(index, col + '_' + 'vote_average', 0)
-                        df.set_value(index, col + '_' + 'vote_count', 0)
-                        df.set_value(index, col + '_' + 'profit', 0)
-                        df.set_value(index, col + '_' + 'rev_budget_ratio', 0)
+                # if id_ != '': 
+                try:
+                    df.set_value(index, col + '_' + 'vote_average',
+                                                nconst_to_vote_average_score[id_])
+                    df.set_value(index, col + '_' + 'vote_count',
+                                            nconst_to_vote_count_score[id_])
+                    df.set_value(index, col + '_' + 'profit',
+                                                nconst_to_profit_score[id_])
+                    df.set_value(index, col + '_' + 'rev_budget_ratio',
+                                                nconst_to_rev_budget_ratio_score[id_])
+                except:
+                    df.set_value(index, col + '_' + 'vote_average', 0)
+                    df.set_value(index, col + '_' + 'vote_count', 0)
+                    df.set_value(index, col + '_' + 'profit', 0)
+                    df.set_value(index, col + '_' + 'rev_budget_ratio', 0)
     
     for col_type in nontrivial_col_types:
         for col in col_type:
