@@ -1,6 +1,7 @@
 import pickle
 import numpy as np
-from component_score_rt import compute_df_score
+from src.component_score_rt import compute_df_score
+
 
 def ml_prediction(df,rev_model,rating_model):
 
@@ -12,7 +13,7 @@ def ml_prediction(df,rev_model,rating_model):
     log_rev_budget_ratio_mean = 0.604557343641753 
     log_rev_budget_ratio_std  = 1.7679498325555352
     
-    budget = df['budget'][0]
+    budget = float(df['budget'][0])
 
     # One Hot the Genre
     genres = ['Action','Adventure','Animation','Comedy','Crime','Documentary','Drama','Family','Fantasy','History','Horror','Music','Mystery','Romance','Science Fiction','Thriller','War','Western']
@@ -20,6 +21,9 @@ def ml_prediction(df,rev_model,rating_model):
         df[g] = ((df['genre_1'].str.contains(g))| (df['genre_2'].str.contains(g))| (df['genre_3'].str.contains(g))| (df['genre_4'].str.contains(g))).astype(float)
 
     # Preparing data for ML model
+    df['budget']         = df['budget'].astype(float)
+    df['runtimeMinutes'] = df['runtimeMinutes'].astype(int)
+
     df['budget']         = np.log(df['budget'])
     df['budget']         = (df['budget']-budget_mean)/budget_std
     df['runtimeMinutes'] = df['runtimeMinutes']/runtime_max
@@ -27,6 +31,7 @@ def ml_prediction(df,rev_model,rating_model):
     
     pred_log_rev_budget_ratio = rev_model.predict(input_features)[0]
     pred_rating_0_to_1        = rating_model.predict(input_features)[0]
+
 
     pred_rev  = np.exp(((pred_log_rev_budget_ratio*log_rev_budget_ratio_std)+log_rev_budget_ratio_mean))*budget
     pred_rate = pred_rating_0_to_1*5
@@ -42,15 +47,29 @@ def predict(
         cast=None,
         prod_companies=None
 ):
+    if genres is None:
+        genres = []
+    if directors is None:
+        directors = []
+    if writers is None:
+        writers = []
+    if cast is None:
+        cast = []
+    if prod_companies is None:
+        prod_companies = []
 
+    new_genres = [genre.strip() for genre in genres]
+    new_directors = [director.strip() for director in directors]
+    new_writers = [writer.strip() for writer in writers]
+    new_cast = [c.strip() for c in cast]
+    new_prod_companies = [pc.strip() for pc in prod_companies]
 
     rev_model = pickle.load(open('ML/models/revenue_model_rf.p', 'rb'))
     rating_model = pickle.load(open('ML/models/rating_model_rf.p', 'rb'))
 
-    x = compute_df_score(budget, runtime, genres, prod_companies, writers,
-                         directors, cast, [])
+    x = compute_df_score(budget, runtime, new_genres, new_prod_companies, new_writers,
+                         new_directors, new_cast, [''])
     rev,rating = ml_prediction(x,rev_model,rating_model)
-
     return {
         "Revenue":rev,
         "Rating": rating

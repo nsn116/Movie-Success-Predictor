@@ -69,6 +69,7 @@ def set_nconsts(staff_list):
     return staff_list
 
 def fill_missing(feature_list, max_number):
+    print(feature_list)
     i = len(feature_list)
     
     while i < max_number:
@@ -89,6 +90,7 @@ def get_df_without_scores(budget, runtime, genres, prod_companies, writers, dire
     which I'll then use to compute the score
     """
     genres = fill_missing(genres, num_genres)
+    print(prod_companies)
     prod_companies = fill_missing(prod_companies, num_prod_companies)
     writers = fill_missing(set_nconsts(writers), num_writers)
     directors = fill_missing(set_nconsts(directors), num_directors)
@@ -110,7 +112,7 @@ def get_df_without_scores(budget, runtime, genres, prod_companies, writers, dire
     return pd.DataFrame([df_dict])
 
 def compute_df_score(budget, runtime, genres, prod_companies, writers, directors, actors, others):
-
+    print('FML')
     df = get_df_without_scores(budget, runtime, genres, prod_companies,
                                               writers, directors, actors, others)
     

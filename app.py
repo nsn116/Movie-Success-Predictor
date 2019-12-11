@@ -23,7 +23,7 @@ def post():
     directors = json_data.get('directors', None)
     writers = json_data.get('writers', None)
     cast = json_data.get('cast', None)
-    prod_companies = json_data.get('production_companies', None)
+    prod_companies = json_data.get('prod_companies', None)
     output = predict(
         genres=genres,
         budget=budget,
